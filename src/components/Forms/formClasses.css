@@ -1,0 +1,43 @@
+.invalidLogin{
+    color:red;
+    font-size:0.75em;
+}
+
+.line{
+    color: white;
+}
+
+.register{
+    width: 450px; 
+    background-color:white; 
+    color: black;
+    padding-bottom: 20px;
+    position: relative;
+    border-radius: 10px; 
+
+}
+.login{
+    width: 450px; 
+    background-color:white; 
+    color: black;
+    padding: 20px;  
+    border-radius: 10px; 
+
+}
+
+.userInfo{
+    float:left;
+    display: block;
+    text-align: left;
+    width: 50%;
+  
+}
+.taskForm{
+   
+    padding-bottom: 20px;
+    float:right;
+    width:50%;
+    display: block;
+    text-align: center;
+
+}
