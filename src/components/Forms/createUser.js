@@ -27,6 +27,22 @@ class CreateForm extends Component{
         touched: false
 
       },
+      username:{
+        elementType: "input",
+        elementConfig:{
+          type:'text',
+          placeholder:'username',
+          id:"username"
+        },
+        value: '',
+        label: 'Username',
+        validation: {
+           required:true,
+           
+        },
+        valid:false,
+        touched: false
+      },
       email: {
         elementType: "input",
         elementConfig:{

@@ -95,7 +95,7 @@ class ChatPage extends Component{
      socket.on('message', (msg) =>{
         const message = msg.text
         console.log(message);
-        const createdAt = moment(msg.createdAt).format(" h:MM A")
+        const createdAt = moment(msg.createdAt).format(" h:mm A")
         const html = `<div> 
         <p>
             <span class="message__name" autocapitalize="">${msg.username}</span>
@@ -109,6 +109,10 @@ class ChatPage extends Component{
 
     socket.on('roomData', (roomData) =>{
         const users = roomData.users.map((user, index) =>{
+            
+            if(user.username !== this.state.user.name){
+                this.setState({chatName: user.username})
+            }
             console.log(user)
              return `<li>${user.username}</li>`
         })
