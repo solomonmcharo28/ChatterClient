@@ -112,13 +112,13 @@ class LoginForm extends Component{
       email,
       password
     }
-    axios.post('https://solo-eservice-api.herokuapp.com/users/login', data)
+    axios.post('http://localhost:3001/users/login', data)
     .then((response) => {
       console.log(response.data);
       const token = "Bearer " + response.data.token
       localStorage.setItem('thisToken', token)
       console.log(token)
-      window.location.replace("/homepage")
+      window.location.replace("/home")
     })
     .catch( (error) => {
       console.log(error.message);
@@ -150,6 +150,7 @@ render (){
      <div className="login">
     
          <h1>Login</h1>
+         <hr></hr>
      <form  id='myForm'
             className="form"
               >

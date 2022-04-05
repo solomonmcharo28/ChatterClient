@@ -42,7 +42,6 @@ const  input = (props) => {
             {props.elementConfig.options.map(option =>(
                 <option key={option.value} value={option.value}>{option.displayValue}</option>
             ))}
-            onChange={props.changed}
             </select>);
             break;
         default:

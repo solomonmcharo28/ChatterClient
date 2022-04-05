@@ -3,6 +3,8 @@ import axios from 'axios';
 import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 import LoginForm from './components/Forms/loginUser'
 import CreateForm from './components/Forms/createUser'
+import HomePage from './components/Pages/userHomepage'
+import ChatPage from './components/Pages/chat'
 import NavBar from './components/NavBar'
 import logo from './logo.svg';
 import newLogo from './chatter.gif'
@@ -15,10 +17,22 @@ class App extends Component{
     loggedInPerson : {
 
     },
-
-
-    
+  }
+   constructor(props){
+     super(props)
+    if(localStorage.getItem("thisToken") !== "Bearer " && localStorage.getItem("thisToken")){
+      let config = {
+          headers:{
+              Authorization: localStorage.getItem("thisToken") 
+          }
+      }
+      axios.get('http://localhost:3001/users/me',config).then(response =>{
+      this.setState({loggedInPerson:response.data, loggedIn: true})
+      console.log(this.state.loggedInPerson);
+   });
    }
+  }
+   
    render(){
   return (
     <BrowserRouter>
@@ -40,6 +54,8 @@ class App extends Component{
     }/>
     <Route exact path="/login" element={<LoginForm />}/>
     <Route exact path="/register" element={<CreateForm />}/>
+    <Route exact path="/home" element = {<HomePage />} />
+    <Route exact path="/chat" element = {<ChatPage />} />
     </Routes>
   </header>
     </div>

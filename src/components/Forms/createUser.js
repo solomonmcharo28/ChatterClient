@@ -138,12 +138,12 @@ class CreateForm extends Component{
     if(isValid){
     isValid = !(errors.indexOf('uppercase') >=0) && isValid;
     if(!isValid && value.trim() !== ''){
-      element.errors.push("Must contain Uppercase")
+      element.errors.push("Must contain an uppercase letter")
     }
   }
   else{
     if(errors.indexOf('uppercase') >=0 && value.trim()!== ''){
-      element.errors.push("Must contain Uppercase")
+      element.errors.push("Must contain an uppercase letter")
     }
   }
 }
@@ -151,12 +151,12 @@ class CreateForm extends Component{
     if(isValid){
     isValid = !(errors.indexOf('lowercase') >=0) && isValid;
     if(!isValid && value.trim() !== ''){
-      element.errors.push("Must contain Lowercase")
+      element.errors.push("Must contain a lowercase letter")
     }
   }
   else{
     if(errors.indexOf('lowercase') >=0 && value.trim()!== ''){
-      element.errors.push("Must contain Lowercase")
+      element.errors.push("Must contain a lowercase letter")
     }
   }
 }
@@ -164,15 +164,22 @@ class CreateForm extends Component{
     if(isValid){
     isValid = !(errors.indexOf('digits') >=0) && isValid;
     if(!isValid && value.trim() !== ''){
-      element.errors.push("Must contain Digits")
+      element.errors.push("Must contain at least one digit")
     }
   }
   else{
     if(errors.indexOf('digits') >=0 && value.trim()!== ''){
-      element.errors.push("Must contain Digits")
+      element.errors.push("Must contain at least one digit")
     }
   }
   }
+}
+else{  
+  if(rules.required){
+    isValid = value.trim() !=='' && isValid;
+    if(!isValid){
+    element.errors.push("This field must not be empty")
+    }
 }
   if(rules.isEmail){
     isValid = validator.isEmail(value)  && isValid ;
@@ -186,7 +193,7 @@ class CreateForm extends Component{
       element.errors.push("Passwords Must Match")
       }
     }
-
+  }
     return isValid
   }
   inputChangedHandler = (event, inputIdentifier) =>{
@@ -215,25 +222,25 @@ class CreateForm extends Component{
     props.preventDefault();
     
     const name = this.state.createForm.name.value;
-    const userType = this.state.createForm.userType.value;
-    const occupation = this.state.createForm.occupation.value;
+    const birthDate = new Date(this.state.createForm.birthdate.value);
     const age = Math.floor((todayDate - newDate)/(1000*3600*24*365));
     const email = this.state.createForm.email.value;
     const password = this.state.createForm.password.value;
+    const online = false;
     console.log(age);
     const data = {
       name,
-      occupation,
-      userType,
-      age,
       email,
+      birthDate,
       password,
+      online
     }
     console.log(data)
-    axios.post('https://solo-eservice-api.herokuapp.com/users', data)
+    axios.post('http://localhost:3001/users', data)
     .then( (response) => {
       console.log(response.data);
       this.setState({loggedIn: true});
+      window.location("/login")
     })
     .catch((error) => {
       console.log(error);
@@ -254,7 +261,6 @@ class CreateForm extends Component{
     return (
      //    <div className="Person" >
      <div className="register">
-       
          <h1>Registration</h1>
          <hr className="line"></hr>
      <Form id='myForm'
@@ -277,7 +283,7 @@ class CreateForm extends Component{
      ))}
      
      <Button variant="primary" type="submit" disabled={!this.state.formisValid}>
-       Submit
+       Register
      </Button>
      
    </Form>
