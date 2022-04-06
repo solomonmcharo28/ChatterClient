@@ -3,7 +3,8 @@ import axios from 'axios';
 import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 import LoginForm from './components/Forms/loginUser'
 import CreateForm from './components/Forms/createUser'
-import HomePage from './components/Pages/userHomepage'
+import UserHomePage from './components/Pages/userHomepage'
+import HomePage from './components/Pages/homepage'
 import ChatPage from './components/Pages/chat'
 import NavBar from './components/NavBar'
 import logo from './logo.svg';
@@ -17,6 +18,7 @@ class App extends Component{
     loggedInPerson : {
 
     },
+    otherUsers: [],
   }
    constructor(props){
      super(props)
@@ -29,7 +31,14 @@ class App extends Component{
       axios.get('http://localhost:3001/users/me',config).then(response =>{
       this.setState({loggedInPerson:response.data, loggedIn: true})
       console.log(this.state.loggedInPerson);
+      axios.get('http://localhost:3001/users/all').then(response =>{
+        this.setState({otherUsers: response.data})
+        console.log(response.data)
+     })
    });
+
+
+
    }
   }
    
@@ -41,20 +50,10 @@ class App extends Component{
      <NavBar loggedIn={this.state.loggedIn} loggedInPerson={this.state.loggedInPerson}/>
      <header className="App-header">
        <Routes>
-    <Route exact path="/" element={
-   <div>
-        <img src={newLogo} className="chatter" alt="logo" />
-        <p>
-          Welcome to  <code>Chatter</code>, where conversations happen.
-        </p>
-       <Link to="/login"><Button> Login</Button></Link> <Link to="/register"><Button href='localhost:3000/register'> Sign Up</Button></Link> 
-       
-        </div>
-        
-    }/>
+    <Route exact path="/" element={<HomePage loggedIn={this.state.loggedIn} user={this.state.loggedInPerson} otherUsers={this.state.otherUsers}/>}/>
     <Route exact path="/login" element={<LoginForm />}/>
     <Route exact path="/register" element={<CreateForm />}/>
-    <Route exact path="/home" element = {<HomePage />} />
+    <Route exact path="/home" element = {<UserHomePage />} />
     <Route exact path="/chat" element = {<ChatPage />} />
     </Routes>
   </header>

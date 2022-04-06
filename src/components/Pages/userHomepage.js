@@ -7,7 +7,7 @@ import {Button} from 'react-bootstrap'
 import Persons from '../../components/Persons/persons'
 import { isDOMComponent } from 'react-dom/test-utils';
 // import {Link, Redirect} from 'react-router-dom'
-
+const socket = io("http://localhost:3001")
 class UserHomepage extends Component{
    state = {
        user: {},
@@ -49,7 +49,7 @@ class UserHomepage extends Component{
     console.log(response.data)
     this.setState({user:response.data})
     console.log(this.state.user)
-    const socket = io("http://localhost:3001")
+   
     const username = this.state.user.name;
     const room = this.state.user.email;
     console.log(username, room)
@@ -121,8 +121,8 @@ class UserHomepage extends Component{
     render (){
   
         let Friends = null;
-        let friendList = [{name: "John Doe", message: "hello this is a message"}, {name: "Helena", message: "hi"}, {name: "Joel", message:"howdy"}]
-        Friends = (<Persons persons ={friendList}> </Persons>)
+        let friendList = this.state.user.friendList
+        if(friendList)Friends = (<Persons persons ={friendList}> </Persons>)
         const style = {
             "display" : "flex",
             "flexWrap" : "wrap",
@@ -133,7 +133,7 @@ class UserHomepage extends Component{
           
          <div className="row userbox">
            <div className="col-4 friends">
-             <h1>Friends Online ({friendList.length})</h1>
+             <h1>Friends Online ()</h1>
              <hr></hr>
              {Friends}
            </div>
@@ -142,10 +142,10 @@ class UserHomepage extends Component{
               <hr></hr>
              
              <p>You have {this.state.task.length} new Messages</p>
-             <Button onClick={this.togglePersonHandler}>View requests</Button>
+             <Button onClick={this.togglePersonHandler}>View Friend requests</Button>
          
              <p></p>
-             <Button onClick={this.toggleRequestHandler}>View services requested</Button>
+             <Button onClick={this.toggleRequestHandler}>View Friends requests sent</Button>
     
              </div>
        </div>

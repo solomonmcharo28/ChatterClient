@@ -238,6 +238,7 @@ else{
     props.preventDefault();
     
     const name = this.state.createForm.name.value;
+    const username = this.state.createForm.username.value;
     const birthDate = new Date(this.state.createForm.birthdate.value);
     const age = Math.floor((todayDate - newDate)/(1000*3600*24*365));
     const email = this.state.createForm.email.value;
@@ -246,6 +247,7 @@ else{
     console.log(age);
     const data = {
       name,
+      username,
       email,
       birthDate,
       password,
@@ -256,7 +258,7 @@ else{
     .then( (response) => {
       console.log(response.data);
       this.setState({loggedIn: true});
-      window.location("/login")
+      window.location.replace("/login")
     })
     .catch((error) => {
       console.log(error);
