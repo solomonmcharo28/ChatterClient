@@ -68,7 +68,9 @@ const theNavbar = (props) =>{
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto" style ={navStyle} >
         <Nav.Link href="/"> &nbsp;  Home</Nav.Link> 
-            <Nav.Link>&nbsp;Friend Requests</Nav.Link>
+            <NavDropdown title=" Friend Requests" id="basic-nav-dropdown">
+            
+            </NavDropdown>
             <NavDropdown title={props.loggedInPerson.name} id="basic-nav-dropdown" >
               <NavDropdown.Item href="/homepage">View Profile</NavDropdown.Item>
               <NavDropdown.Item href="/info" >Update User</NavDropdown.Item>

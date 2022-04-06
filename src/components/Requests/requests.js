@@ -1,9 +1,12 @@
 import React from 'react';
-import Request from './Person/person'
-const requests = (props) => props.persons.map((request, index)=>{
+import Request from './Request/request'
+const requests = (props) => props.requests.map((request, index)=>{
     return <Request
-    name={person.name} 
-    message={person.message}
+    name={request.name} 
+    message={request.message}
+    sender={request.sender}
+    receiver={request.receiver}
+    id = {request._id}
     />
 });
 

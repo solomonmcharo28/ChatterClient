@@ -1,7 +1,7 @@
 import React from 'react';
 // import './Person.css';
 import {FaUserAlt, FaCheck} from  'react-icons/fa'
-
+import axios from 'axios'
 import styled from 'styled-components'
 import {Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
@@ -27,12 +27,26 @@ transition: ease-in 0.1s;
     }
 `;
 const Request = (props) => {
+    let config = {
+        headers: {
+        Authorization: localStorage.getItem("thisToken"),
+        }
+    }
+    const makeFriends = () =>{
 
-    makeFriends = () =>{
 
+        return;
+    }
+
+    const deleteRequest = () =>{
+        console.log("deleting the request")
+        axios.delete('http://localhost:3001/requests/' + props.id, config,{}).then(response =>{
+            console.log(response.data)
+         })
 
         
     }
+    
     
    return (
    
@@ -41,8 +55,8 @@ const Request = (props) => {
    <p>{props.name}</p>
    </div>
    <div className="col-8">
-   <Button onClick={makeFriends()}> Accept</Button>
-   <Button onClick={deleteRequest()}> Ignore </Button>
+   <Button onClick={makeFriends} variant="success"> Accept</Button>
+   <Button onClick={deleteRequest} variant="danger"> Ignore </Button>
    </div>
    </StyledDiv> 
    

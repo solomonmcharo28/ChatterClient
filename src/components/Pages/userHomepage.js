@@ -5,6 +5,7 @@ import './user.css'
 // import styled from 'styled-components'
 import {Button} from 'react-bootstrap'
 import Persons from '../../components/Persons/persons'
+import Requests from '../../components/Requests/requests'
 import { isDOMComponent } from 'react-dom/test-utils';
 // import {Link, Redirect} from 'react-router-dom'
 const socket = io("http://localhost:3001")
@@ -14,7 +15,7 @@ class UserHomepage extends Component{
        viewTasks: false,
        viewRequests: false,
        viewReviews: false,
-       task:[],
+       sentRequests:[],
        request:[]
    }
   
@@ -24,6 +25,7 @@ class UserHomepage extends Component{
         window.location.replace("/login")
     }
    }
+
    togglePersonHandler = () =>{
     const doesShow = this.state.viewTasks;
     this.setState({viewTasks: !doesShow});
@@ -70,21 +72,17 @@ class UserHomepage extends Component{
 
   });
 
-      /*
-    
-    });
-
-    axios.get('http://localhost:3000/tasks', config, {
+    axios.get('http://localhost:3001/requests', config, {
       })
       .then((response) =>{
-        this.setState({task:response.data})
+        this.setState({sentRequests:response.data})
       })
       .catch(function (error) {
         console.log(error.message);
         
       });
     
-      axios.get('http://localhost:3000/mytasks', config, {
+      axios.get('http://localhost:3001/myrequests', config, {
       })
       .then((response) =>{
         this.setState({request:response.data})
@@ -93,7 +91,7 @@ class UserHomepage extends Component{
         console.log(error.message);
         
       });
-    */
+    
    }
 
    logOutHandler = () => {
@@ -103,7 +101,7 @@ class UserHomepage extends Component{
       Authorization: localStorage.getItem("thisToken"),
       }
   }
-    axios.post('http://localhost:3000/users/logout', config, {
+    axios.post('http://localhost:3001/users/logout', config, {
     })
     .then((response) =>{
     })
@@ -128,7 +126,12 @@ class UserHomepage extends Component{
             "flexWrap" : "wrap",
             
           }
-
+         let MyRequests = null;
+         if(this.state.viewRequests){
+           
+            MyRequests = ( <Requests requests={this.state.request} ></Requests>);
+           
+         }
         return (
           
          <div className="row userbox">
@@ -141,12 +144,12 @@ class UserHomepage extends Component{
               <h1> Recent Conversations</h1>
               <hr></hr>
              
-             <p>You have {this.state.task.length} new Messages</p>
-             <Button onClick={this.togglePersonHandler}>View Friend requests</Button>
-         
+             <p>You have {this.state.request.length} Requests</p>
+             <Button onClick={this.toggleRequestHandler}>View Friend requests</Button>
+             {MyRequests}
              <p></p>
              <Button onClick={this.toggleRequestHandler}>View Friends requests sent</Button>
-    
+               
              </div>
        </div>
         );
