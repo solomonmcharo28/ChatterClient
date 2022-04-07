@@ -57,8 +57,17 @@ class ChatPage extends Component{
       console.log(response.data)
       this.state = {user:response.data}
       console.log(this.state.user)
+      socket.emit('token', {token: localStorage.getItem("thisToken")}, (error) => {
+        if(error){
+            alert(error)
+            
+        }
+        console.log("Has Worked")
+    })  
       const username = this.state.user.name;
-      const room = this.state.user.email;
+      let url = window.location.search;
+      url = url.split("=")[1]
+      const room = url;
       console.log(username, room)
       socket.emit('join', {username, room}, (error) => {
         if(error){
@@ -68,8 +77,16 @@ class ChatPage extends Component{
         console.log("Has Worked")
     })
      
-    console.log("leo")
+     //  console.log("leo")
       //console.log(this.state.user.name)
+    axios.get('http://localhost:3001/boards/' + room, config, {
+    })
+    .then((response) =>{
+    })
+    .catch(function (error) {
+      console.log(error.message);
+      
+    });
     })
     .catch(function (error) {
       console.log(error.message);
@@ -123,6 +140,10 @@ class ChatPage extends Component{
         </ul>`
         document.querySelector("#sidebar").innerHTML = html
      })
+
+     var form = document.getElementById("myMessage");
+    function handleForm(event) { event.preventDefault(); } 
+    form.addEventListener('submit', handleForm);
    }
 
    componentDidUpdate(){
@@ -196,7 +217,8 @@ sendMessage = (e) =>{
         })
        
 }
-sendMyLocation = () => {
+sendMyLocation = (e) => {
+    e.preventDefault()
     if(!navigator.geolocation){
         alert("Browser does not support Geolocation");
         return;
@@ -227,7 +249,7 @@ sendMyLocation = () => {
            </div>
            <div className="col-8  chat__main">
               <h1> {this.state.chatName}</h1>
-              <hr></hr>
+              <hr style={{color:"white"}}></hr>
               <div id="messages" class="chat__messages"></div>
               <div class="compose">
             <form id="myMessage">

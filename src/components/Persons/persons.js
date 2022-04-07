@@ -3,7 +3,9 @@ import Person from './Person/person'
 const persons = (props) => props.persons.map((person, index)=>{
     return <Person 
     name={person.name} 
-    message={person.message}
+    username = {person.username}
+    online = {person.online}
+    currentUser = {props.username}
     />
 });
 

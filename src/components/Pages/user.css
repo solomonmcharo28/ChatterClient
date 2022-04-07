@@ -1,6 +1,8 @@
 .friends{
     border: 1px solid white;
     overflow: scroll;
+    display: flex;
+    flex-direction: column;
 }
 
 .userbox{

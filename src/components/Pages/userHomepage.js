@@ -8,7 +8,7 @@ import Persons from '../../components/Persons/persons'
 import Requests from '../../components/Requests/requests'
 import { isDOMComponent } from 'react-dom/test-utils';
 // import {Link, Redirect} from 'react-router-dom'
-const socket = io("http://localhost:3001")
+const socket = io("http://localhost:3001", {token: localStorage.getItem("thisToken")})
 class UserHomepage extends Component{
    state = {
        user: {},
@@ -16,7 +16,9 @@ class UserHomepage extends Component{
        viewRequests: false,
        viewReviews: false,
        sentRequests:[],
-       request:[]
+       request:[],
+       friendList:[],
+       countOnline:0,
    }
   
    constructor(props){
@@ -51,19 +53,34 @@ class UserHomepage extends Component{
     console.log(response.data)
     this.setState({user:response.data})
     console.log(this.state.user)
-   
-    const username = this.state.user.name;
-    const room = this.state.user.email;
-    console.log(username, room)
-    socket.emit('join', {username, room}, (error) => {
+    socket.emit('token', {token: localStorage.getItem("thisToken")}, (error) => {
       if(error){
           alert(error)
-          window.location.replace = '/'
+          
       }
       console.log("Has Worked")
   })
+   
   console.log("leo")
-    //console.log(this.state.user.name)
+    for(var i = 0; i<this.state.user.friendList.length; i++){
+        let friend = this.state.user.friendList[i];
+        console.log(friend)
+      axios.get('http://localhost:3001/users/' + friend.friend)
+      .then((response) =>{
+        let newFriendList = this.state.friendList
+        newFriendList.push(response.data)
+        let newCountOnline = this.state.countOnline;
+        if(response.data.online){
+          newCountOnline += 1;
+        }
+        this.setState({friendList : newFriendList, countOnline: newCountOnline})
+      })
+      .catch(function (error) {
+        console.log(error.message);
+        
+      });
+    }
+    console.log(this.state.friendList)
   })
   .catch(function (error) {
     console.log(error.message);
@@ -119,8 +136,8 @@ class UserHomepage extends Component{
     render (){
   
         let Friends = null;
-        let friendList = this.state.user.friendList
-        if(friendList)Friends = (<Persons persons ={friendList}> </Persons>)
+        let friendList = this.state.friendList
+        if(friendList)Friends = (<Persons persons ={friendList} username={this.state.user.username}>  </Persons>)
         const style = {
             "display" : "flex",
             "flexWrap" : "wrap",
@@ -135,14 +152,14 @@ class UserHomepage extends Component{
         return (
           
          <div className="row userbox">
-           <div className="col-4 friends">
-             <h1>Friends Online ()</h1>
-             <hr></hr>
+           <div className="col-4 friends container">
+             <h1>Friends Online ({this.state.countOnline})</h1>
+             <hr style={{borderColor:"white"}}></hr>
              {Friends}
            </div>
            <div className="col-8 ">
               <h1> Recent Conversations</h1>
-              <hr></hr>
+              <hr style={{borderColor:"white"}}></hr>
              
              <p>You have {this.state.request.length} Requests</p>
              <Button onClick={this.toggleRequestHandler}>View Friend requests</Button>

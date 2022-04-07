@@ -34,10 +34,85 @@ const Request = (props) => {
     }
     const makeFriends = () =>{
 
+    axios.get('http://localhost:3001/users/' + props.sender, {
+    })
+    .then((response) =>{
+        const sender = response.data;
+        axios.get('http://localhost:3001/users/me', config,  {
+    })
+    .then((response) =>{
+        const receiver = response.data;
+        
+        const senderFriendList = sender.friendList;
+        const receiverFriendList = receiver.friendList;
+        senderFriendList.push({friend : receiver._id});
+        receiverFriendList.push({friend : sender._id});
+        console.log(receiverFriendList, senderFriendList)
+        const data1 = {
+            friendList: receiverFriendList
+        }
+        const data2 = {
+            friendList: senderFriendList
+        }
+            axios.patch('http://localhost:3001/users/me',data1 ,  config)
+            .then((response) =>{
+            })
+            .catch(function (error) {
+            console.log(error.message);
+            
+            });
+          
+            axios.patch('http://localhost:3001/users/' + props.sender, data2)
+            .then((response) =>{
+            })
+            .catch(function (error) {
+            console.log(error.message);
+            
+            })
+  
+            axios.delete('http://localhost:3001/requests/' + props.id, config,{}).then(response =>{
+                console.log(response.data)
+             })
+
+             let chatNames = []
+             chatNames.push(sender.username)
+             chatNames.push(receiver.username)
+             chatNames.sort()
+             const chatRoomName = chatNames.join('')
+             
+             const data3 = {
+                 name: chatRoomName,
+                 owner2: sender._id
+             }
+            
+             axios.post('http://localhost:3001/boards', data3, config)
+             .then( (response) => {
+               console.log(response.data);
+               this.setState({loggedIn: true});
+               window.location.replace("/login")
+             })
+             .catch((error) => {
+               console.log(error);
+               
+             });
+
+
+
+             
+
+    })
+    .catch(function (error) {
+      console.log(error.message);
+      
+    })
+    }).catch(function (error) {
+        console.log(error.message);
+        
+    })
 
         return;
     }
-
+    
     const deleteRequest = () =>{
         console.log("deleting the request")
         axios.delete('http://localhost:3001/requests/' + props.id, config,{}).then(response =>{
