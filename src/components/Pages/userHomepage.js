@@ -8,7 +8,7 @@ import Persons from '../../components/Persons/persons'
 import Requests from '../../components/Requests/requests'
 import { isDOMComponent } from 'react-dom/test-utils';
 // import {Link, Redirect} from 'react-router-dom'
-const socket = io("http://localhost:3001", {token: localStorage.getItem("thisToken")})
+const socket = io("http://localhost:3001")
 class UserHomepage extends Component{
    state = {
        user: {},
@@ -51,14 +51,14 @@ class UserHomepage extends Component{
   })
   .then((response) => {
     console.log(response.data)
-    this.setState({user:response.data})
+    this.state.user = response.data
     console.log(this.state.user)
     socket.emit('token', {token: localStorage.getItem("thisToken")}, (error) => {
       if(error){
           alert(error)
           
       }
-      console.log("Has Worked")
+      console.log("Token Has Worked")
   })
    
   console.log("leo")
@@ -88,7 +88,7 @@ class UserHomepage extends Component{
 
 
   });
-
+  /*
     axios.get('http://localhost:3001/requests', config, {
       })
       .then((response) =>{
@@ -98,6 +98,7 @@ class UserHomepage extends Component{
         console.log(error.message);
         
       });
+      */
     
       axios.get('http://localhost:3001/myrequests', config, {
       })
@@ -153,7 +154,7 @@ class UserHomepage extends Component{
           
          <div className="row userbox">
            <div className="col-4 friends container">
-             <h1>Friends Online ({this.state.countOnline})</h1>
+             <h1>Friends <i>Online</i>({this.state.countOnline})</h1>
              <hr style={{borderColor:"white"}}></hr>
              {Friends}
            </div>

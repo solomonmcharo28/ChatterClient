@@ -54,7 +54,7 @@ const User = (props) => {
    <p >{props.name}</p>
    <FaUserAlt/>
    <p>Username : {props.username}  </p>
-   <Link to={url+props.name}><Button onClick={sendRequest}> Request <FaCheck/></Button></Link>
+   <Button onClick={sendRequest}> Request <FaCheck/></Button>
 
    </StyledDiv> 
    

@@ -3,7 +3,8 @@ import './nav.css'
 import axios from 'axios';
 import { FaTools, FaRocketchat} from "react-icons/fa"
 import {Link} from 'react-router-dom';
-import { Navbar,  NavDropdown, Nav, Container} from 'react-bootstrap';
+import Requests from './Requests/requests'
+import { Navbar,  NavDropdown, Nav, Container, Button} from 'react-bootstrap';
 const navStyle = {
     "paddingRight": "45px"
   }  
@@ -18,13 +19,14 @@ const navStyle = {
   }
  
 const theNavbar = (props) =>{
-
-  const logOutHandler = () => {
-    let config = {
-      headers: {
-      Authorization: localStorage.getItem("thisToken"),
-      }
+ let requestData = null;
+ let config = {
+  headers: {
+  Authorization: localStorage.getItem("thisToken"),
   }
+}
+  const logOutHandler = () => {
+    
     axios.post('http://localhost:3001/users/logout', config, {
     })
     .then((response) =>{
@@ -38,6 +40,25 @@ const theNavbar = (props) =>{
         window.location.replace("/")
    }
 
+   const getRequest = () =>{
+
+    console.log("pressed")
+    axios.get('http://localhost:3001/myrequests', config, {
+    })
+    .then((response) =>{
+       requestData = response.data;
+       console.log(requestData)
+    })
+    .catch(function (error) {
+      console.log(error.message);
+      
+    });
+  
+
+
+
+   }
+
     if(props.loggedIn === false){
     return (<div>
     <Navbar bg="light" expand="lg">
@@ -48,7 +69,7 @@ const theNavbar = (props) =>{
       <Nav className="ml-auto" style ={navStyle} >
     <Nav.Link href="/"> &nbsp;  Home</Nav.Link> 
         <Nav.Link>&nbsp;Friend Requests</Nav.Link>
-        <NavDropdown title="More Services" id="basic-nav-dropdown" >
+        <NavDropdown title="About Us" id="basic-nav-dropdown" >
           <NavDropdown.Item href="#action/3.2">Product 1</NavDropdown.Item>
         </NavDropdown>
       </Nav>
@@ -59,6 +80,10 @@ const theNavbar = (props) =>{
     );
     }
     else{
+      let MyRequest = null;
+      if(requestData){
+        MyRequest = (<Requests requests={requestData}></Requests>)
+      }
 
       return (<div>
         <Navbar bg="white" expand="lg">
@@ -68,11 +93,11 @@ const theNavbar = (props) =>{
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto" style ={navStyle} >
         <Nav.Link href="/"> &nbsp;  Home</Nav.Link> 
-            <NavDropdown title=" Friend Requests" id="basic-nav-dropdown">
-            
+            <NavDropdown title=" Friend Requests" id="basic-nav-dropdown" onClick={getRequest}>
+            {MyRequest}
             </NavDropdown>
             <NavDropdown title={props.loggedInPerson.name} id="basic-nav-dropdown" >
-              <NavDropdown.Item href="/homepage">View Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/homepage">View Profile <Button> check </Button></NavDropdown.Item>
               <NavDropdown.Item href="/info" >Update User</NavDropdown.Item>
               <NavDropdown.Item onClick={logOutHandler} >Log Out</NavDropdown.Item>
             </NavDropdown>
