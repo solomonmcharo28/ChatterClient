@@ -19,6 +19,7 @@ class App extends Component{
 
     },
     otherUsers: [],
+    requests:[]
   }
    constructor(props){
      super(props)
@@ -35,6 +36,17 @@ class App extends Component{
         this.setState({otherUsers: response.data})
         console.log(response.data)
      })
+
+    axios.get('http://localhost:3001/myrequests', config, {
+    })
+    .then((response) =>{
+      this.setState({requests: response.data})
+    })
+    .catch(function (error) {
+      console.log(error.message);
+      
+    });
+
    });
 
 
@@ -47,7 +59,7 @@ class App extends Component{
     <BrowserRouter>
 
      <div className="App">
-     <NavBar loggedIn={this.state.loggedIn} loggedInPerson={this.state.loggedInPerson}/>
+     <NavBar loggedIn={this.state.loggedIn} loggedInPerson={this.state.loggedInPerson} requests={this.state.requests}/>
      <header className="App-header">
        <Routes>
     <Route exact path="/" element={<HomePage loggedIn={this.state.loggedIn} user={this.state.loggedInPerson} otherUsers={this.state.otherUsers}/>}/>

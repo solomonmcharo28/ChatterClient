@@ -50,7 +50,7 @@
 }
 .chat__messages {
     flex-grow: 1;
-    padding: 0px 0px 0 24px;
+    padding: 24px 24px 0 24px;
     overflow-y: scroll;
     max-height: 300px;
     border: 1px solid hidden;

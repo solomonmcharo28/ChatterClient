@@ -5,6 +5,7 @@ import './user.css'
 // import styled from 'styled-components'
 import {Button} from 'react-bootstrap'
 import Persons from '../../components/Persons/persons'
+import MessageBoards from '../../components/MessageBoard/messageboards'
 import Requests from '../../components/Requests/requests'
 import { isDOMComponent } from 'react-dom/test-utils';
 // import {Link, Redirect} from 'react-router-dom'
@@ -19,6 +20,7 @@ class UserHomepage extends Component{
        request:[],
        friendList:[],
        countOnline:0,
+       messageBoards:[]
    }
   
    constructor(props){
@@ -81,6 +83,9 @@ class UserHomepage extends Component{
       });
     }
     console.log(this.state.friendList)
+
+
+
   })
   .catch(function (error) {
     console.log(error.message);
@@ -99,11 +104,19 @@ class UserHomepage extends Component{
         
       });
       */
-    
       axios.get('http://localhost:3001/myrequests', config, {
       })
       .then((response) =>{
         this.setState({request:response.data})
+      })
+      .catch(function (error) {
+        console.log(error.message);
+        
+      });
+      axios.get('http://localhost:3001/myboards', config, {
+      })
+      .then((response) =>{
+        this.setState({messageBoards: response.data})
       })
       .catch(function (error) {
         console.log(error.message);
@@ -135,7 +148,13 @@ class UserHomepage extends Component{
 
 
     render (){
-  
+        let Conversations = null;
+        if(this.state.messageBoards){
+        this.state.messageBoards.sort(function(a,b){
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        })
+        Conversations = (<MessageBoards messageBoards={this.state.messageBoards} currentUser={this.state.user}></MessageBoards>)
+        }
         let Friends = null;
         let friendList = this.state.friendList
         if(friendList)Friends = (<Persons persons ={friendList} username={this.state.user.username}>  </Persons>)
@@ -161,13 +180,7 @@ class UserHomepage extends Component{
            <div className="col-8 ">
               <h1> Recent Conversations</h1>
               <hr style={{borderColor:"white"}}></hr>
-             
-             <p>You have {this.state.request.length} Requests</p>
-             <Button onClick={this.toggleRequestHandler}>View Friend requests</Button>
-             {MyRequests}
-             <p></p>
-             <Button onClick={this.toggleRequestHandler}>View Friends requests sent</Button>
-               
+               {Conversations}
              </div>
        </div>
         );

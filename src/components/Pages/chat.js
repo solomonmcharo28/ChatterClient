@@ -1,6 +1,7 @@
 import React, {Component, useEffect} from 'react';
 import axios from 'axios';
 import {io} from 'socket.io-client';
+import {FaUserAlt, FaCheck} from  'react-icons/fa'
 import './chat.css'
 import './user.css'
 // import styled from 'styled-components'
@@ -90,9 +91,18 @@ class ChatPage extends Component{
     axios.get('http://localhost:3001/boards/' + room, config, {
     })
     .then((response) =>{
+       
         console.log("Its working")
         this.state.messageBoard = response.data;
         const messageBoard = this.state.messageBoard.messages;
+        if(this.state.messageBoard.chatName === ""){
+        if(this.state.user._id !== response.data.owner1){
+            this.setState({chatName : response.data.chatName1});
+        }
+        else{
+            this.setState({chatName : response.data.chatName2});
+        }
+        }      
         console.log(messageBoard)
         for(var i = 0; i<messageBoard.length; i++){
             const message = messageBoard[i].message.msg;
@@ -150,9 +160,6 @@ class ChatPage extends Component{
     socket.on('roomData', (roomData) =>{
         const users = roomData.users.map((user, index) =>{
             console.log(user.username,this.state.user.name.toLowerCase() )
-            if(user.username !== this.state.user.name.toLowerCase()){
-                this.setState({chatName: user.username})
-            }
             console.log(user)
              return `<li>${user.username}</li>`
         })
@@ -277,7 +284,7 @@ sendMyLocation = (e) => {
            <div className="col-4 chat__sidebar" id="sidebar">
            </div>
            <div className="col-8  chat__main">
-              <h1> {this.state.chatName}</h1>
+              <h1> {this.state.chatName} &nbsp;   &nbsp;<FaUserAlt /> </h1>
               <hr style={{color:"white"}}></hr>
               <div id="messages" class="chat__messages"></div>
               <div class="compose">

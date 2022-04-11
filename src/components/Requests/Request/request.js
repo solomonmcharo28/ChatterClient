@@ -3,7 +3,7 @@ import React from 'react';
 import {FaUserAlt, FaCheck} from  'react-icons/fa'
 import axios from 'axios'
 import styled from 'styled-components'
-import {Button} from 'react-bootstrap'
+import { Navbar,  NavDropdown, Nav, Container, Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 const StyledDiv = styled.div`
 width: 100%;
@@ -82,7 +82,10 @@ const Request = (props) => {
              
              const data3 = {
                  name: chatRoomName,
-                 owner2: sender._id
+                 owner2: sender._id,
+                 chatName2: sender.name,
+                 chatName1: receiver.name,
+                 chatName: ""
              }
             
              axios.post('http://localhost:3001/boards', data3, config)
@@ -125,6 +128,21 @@ const Request = (props) => {
     
    return (
    
+    <NavDropdown.Item >
+    
+   <p>{props.name} &nbsp; &nbsp; <FaUserAlt/> </p>
+   <Button onClick={makeFriends} variant="success"> Accept</Button>
+   <Button onClick={deleteRequest} variant="danger"> Ignore </Button>
+   </NavDropdown.Item> 
+   
+   );
+
+}
+
+export default Request;
+/*
+
+
     <StyledDiv className="row" >
         <div className="col-4">    
    <p>{props.name}</p>
@@ -139,4 +157,7 @@ const Request = (props) => {
 
 }
 
-export default Request;
+
+
+
+*/

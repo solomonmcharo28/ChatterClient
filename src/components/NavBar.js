@@ -40,24 +40,6 @@ const theNavbar = (props) =>{
         window.location.replace("/")
    }
 
-   const getRequest = () =>{
-
-    console.log("pressed")
-    axios.get('http://localhost:3001/myrequests', config, {
-    })
-    .then((response) =>{
-       requestData = response.data;
-       console.log(requestData)
-    })
-    .catch(function (error) {
-      console.log(error.message);
-      
-    });
-  
-
-
-
-   }
 
     if(props.loggedIn === false){
     return (<div>
@@ -80,11 +62,9 @@ const theNavbar = (props) =>{
     );
     }
     else{
-      let MyRequest = null;
-      if(requestData){
-        MyRequest = (<Requests requests={requestData}></Requests>)
-      }
-
+      requestData = props.requests
+      let numRequests = requestData.length == 0 ? "" :"(" + requestData.length + ")"
+      const friends = "Friend Requests " + numRequests;
       return (<div>
         <Navbar bg="white" expand="lg">
           <Container>
@@ -93,11 +73,11 @@ const theNavbar = (props) =>{
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto" style ={navStyle} >
         <Nav.Link href="/"> &nbsp;  Home</Nav.Link> 
-            <NavDropdown title=" Friend Requests" id="basic-nav-dropdown" onClick={getRequest}>
-            {MyRequest}
+            <NavDropdown title={friends} id="basic-nav-dropdown" >
+            <Requests requests={requestData}></Requests>
             </NavDropdown>
             <NavDropdown title={props.loggedInPerson.name} id="basic-nav-dropdown" >
-              <NavDropdown.Item href="/homepage">View Profile <Button> check </Button></NavDropdown.Item>
+              <NavDropdown.Item href="/homepage">View Profile </NavDropdown.Item>
               <NavDropdown.Item href="/info" >Update User</NavDropdown.Item>
               <NavDropdown.Item onClick={logOutHandler} >Log Out</NavDropdown.Item>
             </NavDropdown>
