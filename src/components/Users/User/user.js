@@ -14,7 +14,7 @@ box-shadow: 0 2px 3px #ccc;
 padding: 16px;
 text-align: center;
 border-radius:5px;
-font-family: Quicksand;
+font-family: Roboto;
 transition: ease-in 0.1s;
 @media (min-width: 500px){
         width:450px;
@@ -45,16 +45,27 @@ const User = (props) => {
             console.log(error);
             
           });
+          this.forceUpdate()
         }
     
     const url = "/connect?id=" 
+    let Request = (<Button onClick={sendRequest}> Request <FaCheck/></Button>)
+    if(props.friends){
+        Request = (<Button variant="success"disabled> Friends <FaCheck/></Button>)
+    }
+    else if(props.sentRequest){
+        Request = (<Button variant="info" disabled> Sent <FaCheck/></Button>)
+    }
+    else if(props.receiveRequest){
+        Request = (<Button disabled> Request <FaCheck/></Button>)
+    }
    return (
    
     <StyledDiv >  
    <p >{props.name}</p>
    <FaUserAlt/>
    <p>Username : {props.username}  </p>
-   <Button onClick={sendRequest}> Request <FaCheck/></Button>
+   {Request}
 
    </StyledDiv> 
    

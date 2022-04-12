@@ -26,13 +26,17 @@
 }
 
 .message {
-    margin-bottom: 16px;   
+    margin-bottom: 20px; 
+    text-align: left;
 }
 
 .message__name {
     font-weight: 600;
     font-size: 14px;
     margin-right: 8px;
+    text-transform: capitalize; 
+    display: inline-block;
+    text-align: left;
 }
 
 .message__meta {
@@ -45,7 +49,7 @@
 }
 .message__text{
     color: white;
-    font-size: 15px;
+    font-size: 16px;
 
 }
 .chat__messages {
@@ -77,4 +81,10 @@
     list-style-type: none;
     font-weight: 300;
     padding: 12px 24px 0 24px;
+}
+.activeName{
+    text-decoration: none;
+    list-style-type: none;
+    color: grey ;
+    text-transform: capitalize;
 }

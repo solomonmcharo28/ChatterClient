@@ -38,7 +38,7 @@ const HomePage = (props) =>{
                   <h1>Welcome {props.user.name}</h1>
                   <h2>Here are other users on the app</h2>
            <div className="usersDisplay">
-                  <Users users={props.otherUsers} username={props.user.username} user={props.user}></Users>
+                  <Users users={props.otherUsers} username={props.user.username} user={props.user} friendList={props.friendList} sentRequests={props.sentRequests} requests={props.requests}></Users>
            </div>
            </div>
         )

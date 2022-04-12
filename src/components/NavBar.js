@@ -77,7 +77,7 @@ const theNavbar = (props) =>{
             <Requests requests={requestData}></Requests>
             </NavDropdown>
             <NavDropdown title={props.loggedInPerson.name} id="basic-nav-dropdown" >
-              <NavDropdown.Item href="/homepage">View Profile </NavDropdown.Item>
+              <NavDropdown.Item href="/home">View Profile </NavDropdown.Item>
               <NavDropdown.Item href="/info" >Update User</NavDropdown.Item>
               <NavDropdown.Item onClick={logOutHandler} >Log Out</NavDropdown.Item>
             </NavDropdown>

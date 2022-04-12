@@ -5,7 +5,7 @@ const messageboards = (props) => props.messageBoards.map((messageBoard, index)=>
     if(messageBoard.messages.length > 0){
       let ChatName = null;
       if(messageBoard.chatName === ""){
-      if(props.currentUser.id !== messageBoard.owner1){
+      if(props.currentUser._id !== messageBoard.owner1){
           ChatName = messageBoard.chatName1
       }
       else{

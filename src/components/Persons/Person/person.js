@@ -18,7 +18,7 @@ background-color: white;
 text-align: center;
 height: 60px;
 overflow: hidden;
-font-family: Quicksand;
+font-family: Roboto;
 transition: ease-in 0.1s;
 &:hover{
    border: 3px solid green;

@@ -108,15 +108,31 @@ class ChatPage extends Component{
             const message = messageBoard[i].message.msg;
             console.log(message);
             const createdAt = moment(messageBoard[i].message.createdAt).format(" h:mm A")
-        const html = `<div> 
+            if(i > 0 ){
+                const date1 = new Date(moment(messageBoard[i].message.createdAt).format('MM/DD/YYYY'))
+                const date2 = new  Date(moment(messageBoard[i-1].message.createdAt).format('MM/DD/YYYY'))
+                if(date1.getTime() > date2.getTime()){
+                const calendarOffset = moment(messageBoard[i-1].message.createdAt).calendar()
+                const offsetReference = calendarOffset.split("at")
+                const html2 = `<div> 
+                <p>
+                    <span class="message__meta">${offsetReference[0]}</span>
+                </p>
+                </div>`
+                $messages.insertAdjacentHTML('beforeend', html2)
+                }
+            }
+        const html = `<div class="message"> 
             <p>
-                <span class="message__name" autocapitalize="">${messageBoard[i].message.username}</span>
+                <span class="message__name" autocapitalize="words">${messageBoard[i].message.username}</span>
                 <span class="message__meta">${createdAt}</span>
             </p>
-            <p> ${message} </p>
+            <p class="message__text"> ${message} </p>
             </div>`
             $messages.insertAdjacentHTML('beforeend', html)
         }
+        $messages.scrollTop = $messages.scrollHeight
+        
     })
     .catch(function (error) {
       console.log(error.message);
@@ -131,11 +147,11 @@ class ChatPage extends Component{
       console.log("Trying out")
      socket.on('locationMessage', (location) =>{
        console.log(location);
-       const html = `<div > <p>
+       const html = `<div class="message"> <p>
          <span class="message__name">${location.username}</span>
          <span class="message__meta">${moment(location.createdAt).format(" h:mm A")}</span>
      </p>
-          <p class="message__text"> <a href=${location.url} target="_blank"> My current location </a></p>
+          <p> <a href=${location.url} target="_blank"> My current location </a></p>
          </div>`
        $messages.insertAdjacentHTML('beforeend', html)
        this.autoscroll()
@@ -146,12 +162,12 @@ class ChatPage extends Component{
         const message = msg.text
         console.log(message);
         const createdAt = moment(msg.createdAt).format(" h:mm A")
-        const html = `<div> 
+        const html = `<div class="message"> 
         <p>
             <span class="message__name" autocapitalize="">${msg.username}</span>
             <span class="message__meta">${createdAt}</span>
         </p>
-        <p> ${message} </p>
+        <p class="message__text"> ${message} </p>
         </div>`
         $messages.insertAdjacentHTML('beforeend', html)
         this.autoscroll()
@@ -159,14 +175,14 @@ class ChatPage extends Component{
 
     socket.on('roomData', (roomData) =>{
         const users = roomData.users.map((user, index) =>{
-            console.log(user.username,this.state.user.name.toLowerCase() )
-            console.log(user)
-             return `<li>${user.username}</li>`
+            //onsole.log(user.username,this.state.user.name.toLowerCase() )
+            //console.log(user)
+             return `<li class="activeName">${user.username}</li>`
         })
         const html = `<h2 class="room-title">Chatter</h2>
-        <h3 class="list-title">Users in the Chat</h3>
+        <h3 class="list-title">Users Active in the Chat</h3>
         <ul class="users">
-            ${users}
+            ${users.join(" ")}
         </ul>`
         document.querySelector("#sidebar").innerHTML = html
      })
