@@ -5,7 +5,8 @@ import './user.css'
 import './homepage.css'
 // import styled from 'styled-components'
 import {Button} from 'react-bootstrap'
-import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
+import SearchField from 'react-search-field'
+import {BrowserRouter, Route, Routes, Link, Search} from 'react-router-dom';
 import Users from '../../components/Users/users'
 import newLogo from '../../chatter.gif'
 import { isDOMComponent } from 'react-dom/test-utils';
@@ -37,6 +38,11 @@ const HomePage = (props) =>{
             <div>
                   <h1>Welcome {props.user.name}</h1>
                   <h2>Here are other users on the app</h2>
+                  <SearchField
+  placeholder="Search..."
+  
+  
+/>
            <div className="usersDisplay">
                   <Users users={props.otherUsers} username={props.user.username} user={props.user} friendList={props.friendList} sentRequests={props.sentRequests} requests={props.requests}></Users>
            </div>

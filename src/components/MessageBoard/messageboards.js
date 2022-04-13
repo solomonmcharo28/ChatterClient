@@ -22,6 +22,8 @@ const messageboards = (props) => props.messageBoards.map((messageBoard, index)=>
     message = {messageBoard.messages[messageBoard.messages.length-1].message.msg}
     date = {messageBoard.messages[messageBoard.messages.length-1].message.createdAt}
     chatName = {ChatName}
+    currentUser = {props.currentUser._id}
+    messageUser = {messageBoard.messages[messageBoard.messages.length-1].message.sender}
     />
     }
 });

@@ -25,18 +25,33 @@
     font-size: 14px;
 }
 
-.message {
+.messageSender {
+    margin-bottom: 20px; 
+    text-align: right;
+}
+.messageReceipt {
     margin-bottom: 20px; 
     text-align: left;
 }
 
-.message__name {
+
+.message__nameR {
     font-weight: 600;
     font-size: 14px;
     margin-right: 8px;
     text-transform: capitalize; 
     display: inline-block;
     text-align: left;
+    color: beige;
+}
+.message__nameS {
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 8px;
+    text-transform: capitalize; 
+    display: inline-block;
+    text-align: left;
+    color: lightskyblue;
 }
 
 .message__meta {

@@ -2,6 +2,7 @@ import React, {Component, useEffect} from 'react';
 import axios from 'axios';
 import {io} from 'socket.io-client';
 import {FaUserAlt, FaCheck} from  'react-icons/fa'
+import {BsFillChatFill } from "react-icons/bs";
 import './chat.css'
 import './user.css'
 // import styled from 'styled-components'
@@ -108,11 +109,21 @@ class ChatPage extends Component{
             const message = messageBoard[i].message.msg;
             console.log(message);
             const createdAt = moment(messageBoard[i].message.createdAt).format(" h:mm A")
-            if(i > 0 ){
+            if(i ==0){
+                const calendarOffset = moment(messageBoard[i].message.createdAt).calendar()
+                const offsetReference = calendarOffset.split("at")
+                const html2 = `<div> 
+                <p>
+                    <span class="message__meta">${offsetReference[0]}</span>
+                </p>
+                </div>`
+                $messages.insertAdjacentHTML('beforeend', html2)
+            }
+            else if(i > 0){
                 const date1 = new Date(moment(messageBoard[i].message.createdAt).format('MM/DD/YYYY'))
                 const date2 = new  Date(moment(messageBoard[i-1].message.createdAt).format('MM/DD/YYYY'))
                 if(date1.getTime() > date2.getTime()){
-                const calendarOffset = moment(messageBoard[i-1].message.createdAt).calendar()
+                const calendarOffset = moment(messageBoard[i].message.createdAt).calendar()
                 const offsetReference = calendarOffset.split("at")
                 const html2 = `<div> 
                 <p>
@@ -122,14 +133,42 @@ class ChatPage extends Component{
                 $messages.insertAdjacentHTML('beforeend', html2)
                 }
             }
-        const html = `<div class="message"> 
+            let html = `<h1> hello world </h1>`;
+            if(messageBoard[i].message.sender === this.state.user._id){
+              html = `<div class="messageSender"> 
             <p>
-                <span class="message__name" autocapitalize="words">${messageBoard[i].message.username}</span>
+                <span class="message__nameS" autocapitalize="words">${messageBoard[i].message.username}</span>
                 <span class="message__meta">${createdAt}</span>
             </p>
             <p class="message__text"> ${message} </p>
             </div>`
+            }
+            else{
+                html = `<div class="messageReceipt"> 
+                <p>
+                    <span class="message__nameR" autocapitalize="words">${messageBoard[i].message.username}</span>
+                    <span class="message__meta">${createdAt}</span>
+                </p>
+                <p class="message__text"> ${message} </p>
+                </div>`
+            }
             $messages.insertAdjacentHTML('beforeend', html)
+            if(i === messageBoard.length - 1){
+                const now = new Date();
+                const date1 = new Date(moment(now).format('MM/DD/YYYY'))
+                const date2 = new  Date(moment(messageBoard[i].message.createdAt).format('MM/DD/YYYY'))
+                if(date1.getTime() > date2.getTime()){
+                const calendarOffset = moment(now).calendar()
+                const offsetReference = calendarOffset.split("at")
+                const html2 = `<div> 
+                <p>
+                    <span class="message__meta">${offsetReference[0]}</span>
+                </p>
+                </div>`
+                $messages.insertAdjacentHTML('beforeend', html2)
+                }
+            }
+        
         }
         $messages.scrollTop = $messages.scrollHeight
         
@@ -147,12 +186,23 @@ class ChatPage extends Component{
       console.log("Trying out")
      socket.on('locationMessage', (location) =>{
        console.log(location);
-       const html = `<div class="message"> <p>
-         <span class="message__name">${location.username}</span>
+       let html = "<h1> Hello World </h1>"
+       if(location.sender === this.state.user._id){
+       html = `<div class="messageSender"> <p>
+         <span class="message__nameS">${location.username}</span>
          <span class="message__meta">${moment(location.createdAt).format(" h:mm A")}</span>
      </p>
-          <p> <a href=${location.url} target="_blank"> My current location </a></p>
+          <p class="message__text"> <a href=${location.url} target="_blank"> My current location </a></p>
          </div>`
+       }
+       else{
+         html = `<div class="messageReceipt"> <p>
+         <span class="message__nameR">${location.username}</span>
+         <span class="message__meta">${moment(location.createdAt).format(" h:mm A")}</span>
+     </p>
+          <p class="message__text"> <a href=${location.url} target="_blank"> My current location </a></p>
+         </div>`
+       }
        $messages.insertAdjacentHTML('beforeend', html)
        this.autoscroll()
  
@@ -162,13 +212,25 @@ class ChatPage extends Component{
         const message = msg.text
         console.log(message);
         const createdAt = moment(msg.createdAt).format(" h:mm A")
-        const html = `<div class="message"> 
-        <p>
-            <span class="message__name" autocapitalize="">${msg.username}</span>
-            <span class="message__meta">${createdAt}</span>
-        </p>
-        <p class="message__text"> ${message} </p>
-        </div>`
+        let html = `<h1> hellow world </h1>`
+        if(msg.sender === this.state.user._id){
+            html = `<div class="messageSender"> 
+          <p>
+              <span class="message__nameS" autocapitalize="words">${msg.username}</span>
+              <span class="message__meta">${createdAt}</span>
+          </p>
+          <p class="message__text"> ${message} </p>
+          </div>`
+          }
+          else{
+              html = `<div class="messageReceipt"> 
+              <p>
+                  <span class="message__nameR" autocapitalize="words">${msg.username}</span>
+                  <span class="message__meta">${createdAt}</span>
+              </p>
+              <p class="message__text"> ${message} </p>
+              </div>`
+          }
         $messages.insertAdjacentHTML('beforeend', html)
         this.autoscroll()
     })
@@ -282,7 +344,8 @@ sendMyLocation = (e) => {
       console.log(position)
       socket.emit("sendLocation", {
           latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+          longitude: position.coords.longitude,
+          sender: this.state.user._id,
       }, (location)=> {
         console.log(location)
         $locationButton.removeAttribute('disabled')
@@ -297,10 +360,9 @@ sendMyLocation = (e) => {
         return (
           
          <div className="row userbox chat">
-           <div className="col-4 chat__sidebar" id="sidebar">
-           </div>
+           
            <div className="col-8  chat__main">
-              <h1> {this.state.chatName} &nbsp;   &nbsp;<FaUserAlt /> </h1>
+              <h1> Chat with {this.state.chatName} &nbsp;   &nbsp;<BsFillChatFill /> </h1>
               <hr style={{color:"white"}}></hr>
               <div id="messages" class="chat__messages"></div>
               <div class="compose">
@@ -308,9 +370,11 @@ sendMyLocation = (e) => {
                 <input placeholder="Type Message" name="message" id="textMessage" required autoComplete="off"/>
                 <Button id="submit" name="submit" onClick={this.sendMessage}>Send</Button>
             </form>
-            <Button id="sendLocation" onClick={this.sendMyLocation}>Send Location</Button>
+            <Button id="sendLocation" onClick={this.sendMyLocation}>Share Location</Button>
              </div>
        </div>
+       <div className="col-4 chat__sidebar" id="sidebar">
+           </div>
        </div>
         );
         }
