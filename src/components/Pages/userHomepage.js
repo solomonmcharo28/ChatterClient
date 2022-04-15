@@ -9,7 +9,7 @@ import MessageBoards from '../../components/MessageBoard/messageboards'
 import Requests from '../../components/Requests/requests'
 import { isDOMComponent } from 'react-dom/test-utils';
 // import {Link, Redirect} from 'react-router-dom'
-const socket = io("http://localhost:3001")
+const socket = io("https://solo-chatappapi.herokuapp.com")
 class UserHomepage extends Component{
    state = {
        user: {},
@@ -49,7 +49,7 @@ class UserHomepage extends Component{
       }
   }
 
-  axios.get('http://localhost:3001/users/me', config, {
+  axios.get('https://solo-chatappapi.herokuapp.com/users/me', config, {
   })
   .then((response) => {
     console.log(response.data)
@@ -67,7 +67,7 @@ class UserHomepage extends Component{
     for(var i = 0; i<this.state.user.friendList.length; i++){
         let friend = this.state.user.friendList[i];
         console.log(friend)
-      axios.get('http://localhost:3001/users/' + friend.friend)
+      axios.get('https://solo-chatappapi.herokuapp.com/users/' + friend.friend)
       .then((response) =>{
         let newFriendList = this.state.friendList
         newFriendList.push(response.data)
@@ -104,7 +104,7 @@ class UserHomepage extends Component{
         
       });
       */
-      axios.get('http://localhost:3001/myrequests', config, {
+      axios.get('https://solo-chatappapi.herokuapp.com/myrequests', config, {
       })
       .then((response) =>{
         this.setState({request:response.data})
@@ -113,7 +113,7 @@ class UserHomepage extends Component{
         console.log(error.message);
         
       });
-      axios.get('http://localhost:3001/myboards', config, {
+      axios.get('https://solo-chatappapi.herokuapp.com/myboards', config, {
       })
       .then((response) =>{
         this.setState({messageBoards: response.data})
@@ -132,7 +132,7 @@ class UserHomepage extends Component{
       Authorization: localStorage.getItem("thisToken"),
       }
   }
-    axios.post('http://localhost:3001/users/logout', config, {
+    axios.post('https://solo-chatappapi.herokuapp.com/users/logout', config, {
     })
     .then((response) =>{
     })

@@ -27,7 +27,7 @@ const theNavbar = (props) =>{
 }
   const logOutHandler = () => {
     
-    axios.post('http://localhost:3001/users/logout', config, {
+    axios.post('https://solo-chatappapi.herokuapp.com/users/logout', config, {
     })
     .then((response) =>{
     })
@@ -62,7 +62,7 @@ const theNavbar = (props) =>{
     );
     }
     else{
-      requestData = props.requests
+      requestData = props.requests 
       let numRequests = requestData.length == 0 ? "" :"(" + requestData.length + ")"
       const friends = "Friend Requests " + numRequests;
       return (<div>

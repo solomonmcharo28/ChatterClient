@@ -34,11 +34,11 @@ const Request = (props) => {
     }
     const makeFriends = () =>{
 
-    axios.get('http://localhost:3001/users/' + props.sender, {
+    axios.get('https://solo-chatappapi.herokuapp.com/users/' + props.sender, {
     })
     .then((response) =>{
         const sender = response.data;
-        axios.get('http://localhost:3001/users/me', config,  {
+        axios.get('https://solo-chatappapi.herokuapp.com/users/me', config,  {
     })
     .then((response) =>{
         const receiver = response.data;
@@ -54,7 +54,7 @@ const Request = (props) => {
         const data2 = {
             friendList: senderFriendList
         }
-            axios.patch('http://localhost:3001/users/me',data1 ,  config)
+            axios.patch('https://solo-chatappapi.herokuapp.com/users/me',data1 ,  config)
             .then((response) =>{
             })
             .catch(function (error) {
@@ -62,7 +62,7 @@ const Request = (props) => {
             
             });
           
-            axios.patch('http://localhost:3001/users/' + props.sender, data2)
+            axios.patch('https://solo-chatappapi.herokuapp.com/users/' + props.sender, data2)
             .then((response) =>{
             })
             .catch(function (error) {
@@ -70,7 +70,7 @@ const Request = (props) => {
             
             })
   
-            axios.delete('http://localhost:3001/requests/' + props.id, config,{}).then(response =>{
+            axios.delete('https://solo-chatappapi.herokuapp.com/requests/' + props.id, config,{}).then(response =>{
                 console.log(response.data)
              })
 
@@ -88,7 +88,7 @@ const Request = (props) => {
                  chatName: ""
              }
             
-             axios.post('http://localhost:3001/boards', data3, config)
+             axios.post('https://solo-chatappapi.herokuapp.com/boards', data3, config)
              .then( (response) => {
                console.log(response.data);
                this.setState({loggedIn: true});
@@ -118,7 +118,7 @@ const Request = (props) => {
     
     const deleteRequest = () =>{
         console.log("deleting the request")
-        axios.delete('http://localhost:3001/requests/' + props.id, config,{}).then(response =>{
+        axios.delete('https://solo-chatappapi.herokuapp.com/requests/' + props.id, config,{}).then(response =>{
             console.log(response.data)
          })
 

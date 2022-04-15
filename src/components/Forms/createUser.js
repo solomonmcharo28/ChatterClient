@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Input from '../UI/Input/input.js';
 import {Form , Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import { FaThList } from 'react-icons/fa';
 
 class CreateForm extends Component{
   state = {
@@ -38,7 +39,7 @@ class CreateForm extends Component{
         label: 'Username',
         validation: {
            required:true,
-           
+           uniqueUser: true
         },
         valid:false,
         touched: false
@@ -55,6 +56,7 @@ class CreateForm extends Component{
         validation: {
           required:true,
           isEmail: true,
+          uniqueEmail: true
           
        },
        valid:false,
@@ -120,7 +122,22 @@ class CreateForm extends Component{
 
     },
     formisValid: false,
-    loggedIn : false
+    loggedIn : false,
+    otherUserNames: [],
+    otherEmails: []
+
+  }
+
+  componentDidMount(){
+    axios.get('https://solo-chatappapi.herokuapp.com/users/all').then(response =>{
+        for(var i= 0; i<response.data.length; i++){
+           this.state.otherUserNames.push(response.data[i].username)
+           this.state.otherEmails.push(response.data[i].email)
+        }
+     }).catch(function (error) {
+      console.log(error.message);
+      
+    });
 
   }
   checkValidity(value, rules, element){
@@ -209,6 +226,34 @@ else{
       element.errors.push("Passwords Must Match")
       }
     }
+    if(rules.uniqueUser){
+      if(isValid){
+      isValid = !this.state.otherUserNames.includes(value) && isValid
+      if(!isValid && value.trim()!== ''){
+        element.errors.push("Username is already in use")
+        }
+    }
+    else{
+      if(value.trim()!== '' && this.state.otherUserNames.includes(value)){
+        element.errors.push("Username is already in use")
+      }
+    }
+    }
+    if(rules.uniqueEmail){
+      if(isValid){
+        isValid = !this.state.otherEmails.includes(value) && isValid
+        if(!isValid && value.trim()!== ''){
+          element.errors.push("Email is already in use")
+          }
+      }
+      else{
+        if(value.trim()!== '' && this.state.otherEmails.includes(value)){
+          element.errors.push("Email is already in use")
+        }
+      }
+    }
+
+
   }
     return isValid
   }
@@ -254,7 +299,7 @@ else{
       online
     }
     console.log(data)
-    axios.post('http://localhost:3001/users', data)
+    axios.post('https://solo-chatappapi.herokuapp.com/users', data)
     .then( (response) => {
       console.log(response.data);
       this.setState({loggedIn: true});

@@ -37,7 +37,7 @@ const User = (props) => {
             Authorization: localStorage.getItem("thisToken"),
             }
         }
-          axios.post('http://localhost:3001/requests', data, config)
+          axios.post('https://solo-chatappapi.herokuapp.com/requests', data, config)
           .then( (response) => {
             console.log(response.data);
           })
@@ -57,7 +57,7 @@ const User = (props) => {
         Request = (<Button variant="info" disabled> Sent <FaCheck/></Button>)
     }
     else if(props.receiveRequest){
-        Request = (<Button disabled> Request <FaCheck/></Button>)
+        Request = (<Button disabled> Request Received <FaCheck/></Button>)
     }
    return (
    

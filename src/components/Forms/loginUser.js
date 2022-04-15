@@ -112,7 +112,7 @@ class LoginForm extends Component{
       email,
       password
     }
-    axios.post('http://localhost:3001/users/login', data)
+    axios.post('https://solo-chatappapi.herokuapp.com/users/login', data)
     .then((response) => {
       console.log(response.data);
       const token = "Bearer " + response.data.token

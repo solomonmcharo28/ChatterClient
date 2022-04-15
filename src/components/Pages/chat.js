@@ -14,7 +14,7 @@ import { isDOMComponent } from 'react-dom/test-utils';
 import { FaThList } from 'react-icons/fa';
 import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
 // import {Link, Redirect} from 'react-router-dom'
-const socket =  io("http://localhost:3001");
+const socket =  io("https://solo-chatappapi.herokuapp.com");
 
 class ChatPage extends Component{
    state = {
@@ -59,7 +59,7 @@ class ChatPage extends Component{
         }
     }
     
-    axios.get('http://localhost:3001/users/me', config, {
+    axios.get('https://solo-chatappapi.herokuapp.com/users/me', config, {
     })
     .then((response) => {
       console.log(response.data)
@@ -89,7 +89,7 @@ class ChatPage extends Component{
      //  console.log("leo")
       //console.log(this.state.user.name)
       
-    axios.get('http://localhost:3001/boards/' + room, config, {
+    axios.get('https://solo-chatappapi.herokuapp.com/boards/' + room, config, {
     })
     .then((response) =>{
        
@@ -111,10 +111,13 @@ class ChatPage extends Component{
             const createdAt = moment(messageBoard[i].message.createdAt).format(" h:mm A")
             if(i ==0){
                 const calendarOffset = moment(messageBoard[i].message.createdAt).calendar()
-                const offsetReference = calendarOffset.split("at")
+                let offsetReference = calendarOffset.split("at")[0]
+                if(offsetReference.includes("Last")){
+                    offsetReference = offsetReference.split(" ")[1]
+                }
                 const html2 = `<div> 
                 <p>
-                    <span class="message__meta">${offsetReference[0]}</span>
+                    <span class="message__meta">${offsetReference}</span>
                 </p>
                 </div>`
                 $messages.insertAdjacentHTML('beforeend', html2)
@@ -124,10 +127,13 @@ class ChatPage extends Component{
                 const date2 = new  Date(moment(messageBoard[i-1].message.createdAt).format('MM/DD/YYYY'))
                 if(date1.getTime() > date2.getTime()){
                 const calendarOffset = moment(messageBoard[i].message.createdAt).calendar()
-                const offsetReference = calendarOffset.split("at")
+                let offsetReference = calendarOffset.split("at")[0]
+                if(offsetReference.includes("Last")){
+                    offsetReference = offsetReference.split(" ")[1]
+                }
                 const html2 = `<div> 
                 <p>
-                    <span class="message__meta">${offsetReference[0]}</span>
+                    <span class="message__meta">${offsetReference}</span>
                 </p>
                 </div>`
                 $messages.insertAdjacentHTML('beforeend', html2)
@@ -293,7 +299,7 @@ class ChatPage extends Component{
       Authorization: localStorage.getItem("thisToken"),
       }
   }
-    axios.post('http://localhost:3000/users/logout', config, {
+    axios.post('https://solo-chatappapi.herokuapp.com/users/logout', config, {
     })
     .then((response) =>{
     })

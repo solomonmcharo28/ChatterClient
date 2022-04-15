@@ -33,7 +33,7 @@ class App extends Component{
               Authorization: localStorage.getItem("thisToken") 
           }
       }
-      axios.get('http://localhost:3001/users/me',config).then(response =>{
+      axios.get('https://solo-chatappapi.herokuapp.com/users/me',config).then(response =>{
       this.setState({loggedInPerson:response.data, loggedIn: true})
       console.log(this.state.loggedInPerson);
       const theFriendList = response.data.friendList
@@ -43,7 +43,7 @@ class App extends Component{
       }
       this.setState({friendListID : friendID})
  
-      axios.get('http://localhost:3001/users/all').then(response =>{
+      axios.get('https://solo-chatappapi.herokuapp.com/users/all').then(response =>{
         this.setState({otherUsers: response.data})
         console.log(response.data)
      }).catch(function (error) {
@@ -51,7 +51,7 @@ class App extends Component{
       
     });
 
-    axios.get('http://localhost:3001/myrequests', config, {
+    axios.get('https://solo-chatappapi.herokuapp.com/myrequests', config, {
     })
     .then((response) =>{
        const requestID = [];
@@ -68,7 +68,7 @@ class App extends Component{
       
     });
 
-    axios.get('http://localhost:3001/requests', config, {
+    axios.get('https://solo-chatappapi.herokuapp.com/requests', config, {
     })
     .then((response) =>{
       console.log("Sent Requests!")
