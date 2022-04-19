@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import './Person.css';
 import {FaUserAlt, FaCheck} from  'react-icons/fa'
 import axios from 'axios'
@@ -27,6 +27,7 @@ transition: ease-in 0.1s;
     }
 `;
 const Request = (props) => {
+    const inputState = useState({friends: false})
     let config = {
         headers: {
         Authorization: localStorage.getItem("thisToken"),
@@ -124,14 +125,14 @@ const Request = (props) => {
 
         
     }
-    
+
     
    return (
    
     <NavDropdown.Item >
     
    <p>{props.name} &nbsp; &nbsp; <FaUserAlt/> </p>
-   <Button onClick={makeFriends} variant="success"> Accept</Button>
+   <Button onClick={makeFriends}> Accept</Button>
    <Button onClick={deleteRequest} variant="danger"> Ignore </Button>
    </NavDropdown.Item> 
    
