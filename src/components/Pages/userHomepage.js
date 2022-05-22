@@ -174,7 +174,6 @@ class UserHomepage extends Component{
          <div className="row userbox">
            <div className="col-4 friends container">
              <h1>Friends <i>Online</i>({this.state.countOnline})</h1>
-             <hr style={{borderColor:"white"}}></hr>
              {Friends}
            </div>
            <div className="col-8 ">

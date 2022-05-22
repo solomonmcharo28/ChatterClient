@@ -7,8 +7,8 @@ import {Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 const StyledDiv = styled.div`
 width: 100%;
-margin: 16px auto;
-display: flex;
+margin: 5px;
+display: inline-flex;
 border: 1px solid #eee;
 border-radius: 10px;
 font-size: 18px;
@@ -16,7 +16,7 @@ color: black;
 align-items : center;
 background-color: white;
 text-align: center;
-height: 60px;
+height: 80px;
 overflow: hidden;
 font-family: Roboto;
 transition: ease-in 0.1s;

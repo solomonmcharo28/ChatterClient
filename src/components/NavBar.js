@@ -50,7 +50,6 @@ const theNavbar = (props) =>{
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="ml-auto" style ={navStyle} >
     <Nav.Link href="/"> &nbsp;  Home</Nav.Link> 
-        <Nav.Link>&nbsp;Friend Requests</Nav.Link>
         <NavDropdown title="About Us" id="basic-nav-dropdown" >
           <NavDropdown.Item href="#action/3.2">Product 1</NavDropdown.Item>
         </NavDropdown>
