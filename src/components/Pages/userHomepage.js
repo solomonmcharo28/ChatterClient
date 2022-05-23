@@ -8,6 +8,7 @@ import Persons from '../../components/Persons/persons'
 import MessageBoards from '../../components/MessageBoard/messageboards'
 import Requests from '../../components/Requests/requests'
 import { isDOMComponent } from 'react-dom/test-utils';
+import {BrowserRouter, Route, Routes, Link, Search} from 'react-router-dom';
 // import {Link, Redirect} from 'react-router-dom'
 const socket = io("https://solo-chatappapi.herokuapp.com")
 class UserHomepage extends Component{
@@ -172,12 +173,13 @@ class UserHomepage extends Component{
         return (
           
          <div className="row userbox">
-           <div className="col-4 friends container">
+           <div className="col-4 friendGroup">
              <h1>Friends <i>Online</i>({this.state.countOnline})</h1>
+             <hr style={{borderColor:"white"}}></hr>
              {Friends}
            </div>
            <div className="col-8 ">
-              <h1> Recent Conversations</h1>
+              <h1> Recent Conversations &nbsp; &nbsp; <Link to="/groupchat"> <Button>Creat GroupChat</Button></Link></h1>
               <hr style={{borderColor:"white"}}></hr>
                {Conversations}
              </div>

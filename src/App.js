@@ -6,6 +6,7 @@ import CreateForm from './components/Forms/createUser'
 import UserHomePage from './components/Pages/userHomepage'
 import HomePage from './components/Pages/homepage'
 import ChatPage from './components/Pages/chat'
+import GroupChat from './components/Forms/createGroupChat'
 import NavBar from './components/NavBar'
 import logo from './logo.svg';
 import newLogo from './chatter.gif'
@@ -108,6 +109,7 @@ class App extends Component{
     <Route exact path="/register" element={<CreateForm />}/>
     <Route exact path="/home" element = {<UserHomePage />} />
     <Route exact path="/chat" element = {<ChatPage />} />
+    <Route exact path="/groupchat" element = {<GroupChat />} />
     </Routes>
   </header>
     </div>

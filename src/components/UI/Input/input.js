@@ -1,4 +1,5 @@
 import React from 'react'
+import Select from 'react-select'
 import './input.css'
 const  input = (props) => {
     let inputElement = null;
@@ -33,7 +34,16 @@ const  input = (props) => {
             value={props.value}
             onChange={props.changed}/>
             break;
-        case('select'):
+        case('select2'):
+            inputClasses.push("InputElement")
+            inputElement = (<Select
+            isMulti
+            options= {props.elementConfig.options}
+         >  
+           
+            </Select>);
+            break;
+        case('select1'):
             inputClasses.push("InputElement")
             inputElement = (<select
             className={inputClasses.join(' ')}
@@ -42,7 +52,8 @@ const  input = (props) => {
             {props.elementConfig.options.map(option =>(
                 <option key={option.value} value={option.value}>{option.displayValue}</option>
             ))}
-            </select>);
+            onChange={props.changed}
+            </select>);   
             break;
         default:
             inputClasses.push("InputElement")
@@ -64,3 +75,10 @@ return(
 };
 
 export default input
+
+/*
+
+ {props.elementConfig.options.map(option =>(
+                <option key={option.value} value={option.value}>{option.displayValue}</option>
+            ))}
+*/

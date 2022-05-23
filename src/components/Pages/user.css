@@ -5,7 +5,12 @@
     overflow-y: scroll; 
     height: 500px;
     flex-grow: 1;
-    max-height: 100vh;
+    max-height: 500px;
+}
+
+.friendGroup{
+    max-height: 500px;
+    overflow-y: scroll; 
 }
 
 .userbox{
