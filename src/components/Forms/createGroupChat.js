@@ -239,17 +239,11 @@ else{
   }
 
   onSubmit = (props) =>{ 
-    let todayDate = Date.now();
-    let newDate = new Date(this.state.createForm.birthdate.value);
     props.preventDefault();
-    
+    console.log("lol")
     const name = this.state.createForm.name.value;
-    const username = this.state.createForm.username.value;
-    const birthDate = new Date(this.state.createForm.birthdate.value);
-    const age = Math.floor((todayDate - newDate)/(1000*3600*24*365));
-    const email = this.state.createForm.email.value;
-    const password = this.state.createForm.password.value;
-    const online = false;
+    const friends = this.state.createForm.friends.value;
+    /*
     console.log(age);
     const data = {
       name,
@@ -270,6 +264,8 @@ else{
       console.log(error);
       
     });
+    */
+   console.log(friends)
   }
 
 
